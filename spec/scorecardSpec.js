@@ -47,7 +47,24 @@ describe("Scorecard", function() {
       addFrame(1,1)
     }
     expect(scorecard.score()).toEqual(20)
+  });
 
+  it("scores a spare", function() {
+    addFrame(5, 5);
+    addFrame(9, 0);
+    for(var i = 0; i < 8; i++) {
+      addFrame(0,0)
+    }
+    expect(scorecard.score()).toEqual(28)
+  });
+  
+  it("scores a strike", function() {
+    addFrame(10, 0);
+    addFrame(3, 4);
+    for(var i = 0; i < 8; i++) {
+      addFrame(0,0)
+    }
+    expect(scorecard.score()).toEqual(24)
   });
 
   function addFrame(roll1, roll2) {

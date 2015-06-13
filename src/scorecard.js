@@ -11,6 +11,19 @@ Scorecard.prototype.addRoll = function(roll) {
   };
 }
 
+Scorecard.prototype.score = function() {
+  var score = 0
+  for(var frameIndex = 0; frameIndex < this.frames.length; frameIndex++) {
+    if (this.isStrike(frameIndex)) {
+      score += this.nextTwoRollsScore(frameIndex);
+    } else if (this.isSpare(frameIndex)) {
+      score += this.nextRollScore(frameIndex);
+    }
+    score += this.frameScore(frameIndex);
+  }
+  return score;
+}
+
 Scorecard.prototype.isEndOfFrame = function() {
   return this.currentFrame.length == 2;
 }
@@ -21,12 +34,23 @@ Scorecard.prototype.nextFrame = function() {
   this.frameIndex++
 }
 
-Scorecard.prototype.score = function() {
-  var score = 0
-  this.frames.forEach(function(frame) {
-    score += frame[0] + frame[1];
-  })
-  return score;
+Scorecard.prototype.isStrike = function(frameIndex) {
+  return this.frames[frameIndex][0] == 10 && this.frameScore(frameIndex) == 10;
 }
 
+Scorecard.prototype.isSpare = function(frameIndex) {
+  return this.frameScore(frameIndex) == 10;
+}
+
+Scorecard.prototype.frameScore = function(frameIndex) {
+  return this.frames[frameIndex][0] + this.frames[frameIndex][1];
+}
+
+Scorecard.prototype.nextRollScore = function(frameIndex) {
+  return this.frames[frameIndex + 1][0];
+}
+
+Scorecard.prototype.nextTwoRollsScore = function(frameIndex) {
+  return this.frames[frameIndex + 1][0] + this.frames[frameIndex + 1][1];
+}
 module.exports = Scorecard
