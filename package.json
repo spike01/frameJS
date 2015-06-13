@@ -1,0 +1,17 @@
+{
+  "name": "frameJS",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "jasmine": "^2.3.1"
+  },
+  "devDependencies": {
+    "jasmine": "^2.3.1"
+  },
+  "scripts": {
+    "test": "jasmine"
+  },
+  "author": "",
+  "license": "ISC"
+}
