@@ -1,9 +1,11 @@
 describe("Scorecard", function() {
   var Scorecard = require('../src/scorecard.js');
-  var scorecard;
+  var Frame = require('../src/frame.js');
+  var scorecard, frame;
 
   beforeEach(function() {
-    scorecard = new Scorecard();
+    scorecard = new Scorecard(Frame);
+    frame = new Frame();
   });
 
   it("starts with no frames", function() {
@@ -16,7 +18,8 @@ describe("Scorecard", function() {
 
   it("can add a roll", function() {
     scorecard.addRoll(0);
-    expect(scorecard.currentFrame).toEqual([0]);
+    frame.addRoll(0)
+    expect(scorecard.currentFrame).toEqual(frame);
   });
 
   it("moves forward a frame after two rolls", function() {
@@ -26,13 +29,20 @@ describe("Scorecard", function() {
 
   it("adds a completed frame", function() {
     addFrame(0,0);
-    expect(scorecard.frames).toEqual([[0,0]]);
+    frame.addRoll(0)
+    frame.addRoll(0)
+    expect(scorecard.frames).toEqual([frame]);
   });
 
   it("adds rolls to the correct frame", function() {
     addFrame(0,0);
+    frame.addRoll(0)
+    frame.addRoll(0)
     addFrame(0,0);
-    expect(scorecard.frames).toEqual([[0,0],[0,0]]);
+    var frame2 = new Frame();
+    frame2.addRoll(0)
+    frame2.addRoll(0)
+    expect(scorecard.frames).toEqual([frame, frame2]);
   });
 
   it("scores a gutter game", function() {
@@ -57,7 +67,7 @@ describe("Scorecard", function() {
     }
     expect(scorecard.score()).toEqual(28);
   });
-  
+
   it("scores a strike", function() {
     scorecard.addRoll(10)
     addFrame(3, 4);

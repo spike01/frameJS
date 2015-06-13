@@ -1,64 +1,40 @@
-function Scorecard() {
+var Frame = require('./frame')
+
+function Scorecard(Frame) {
   this.frames = [];
   this.frameIndex = 0;
-  this.currentFrame = []
+  this.frame = Frame;
+  this.currentFrame = new this.frame();
 }
 
 Scorecard.prototype.addRoll = function(roll) {
-  this.currentFrame.push(roll);
-  if (roll === 10) {
-    this.currentFrame.push(0);
-    this.nextFrame()
-  }
-  if (this.isEndOfFrame()) {
+  this.currentFrame.addRoll(roll);
+  if (this.currentFrame.isOver()) {
     this.nextFrame()
   };
 }
 
 Scorecard.prototype.score = function() {
   var score = 0
+
   for(var frameIndex = 0; frameIndex < this.frames.length; frameIndex++) {
-    if (this.isStrike(frameIndex)) {
-      score += this.nextTwoRollsScore(frameIndex);
-    } else if (this.isSpare(frameIndex)) {
-      score += this.nextRollScore(frameIndex);
+    if (this.frames[frameIndex].isStrike()) {
+      if (this.frames[frameIndex + 1].isStrike()) {
+      score += this.frames[frameIndex + 2].spareBonus();
+      }
+      score += this.frames[frameIndex + 1].strikeBonus();
+    } else if (this.frames[frameIndex].isSpare()) {
+      score += this.frames[frameIndex + 1].spareBonus();
     }
-    score += this.frameScore(frameIndex);
+    score += this.frames[frameIndex].score()
   }
   return score;
 }
 
-Scorecard.prototype.isEndOfFrame = function() {
-  return this.currentFrame.length === 2;
-}
-
 Scorecard.prototype.nextFrame = function() {
   this.frames.push(this.currentFrame);
-  this.currentFrame = [];
+  this.currentFrame = new this.frame();
   this.frameIndex++;
-}
-
-Scorecard.prototype.isStrike = function(frameIndex) {
-  return this.frames[frameIndex][0] === 10 && this.frameScore(frameIndex) == 10;
-}
-
-Scorecard.prototype.isSpare = function(frameIndex) {
-  return this.frameScore(frameIndex) === 10;
-}
-
-Scorecard.prototype.frameScore = function(frameIndex) {
-  return this.frames[frameIndex][0] + this.frames[frameIndex][1];
-}
-
-Scorecard.prototype.nextRollScore = function(frameIndex) {
-  return this.frames[frameIndex + 1][0];
-}
-
-Scorecard.prototype.nextTwoRollsScore = function(frameIndex) {
-  if (this.nextRollScore(frameIndex) === 10) {
-    return this.nextRollScore(frameIndex) + this.frames[frameIndex + 2][0];
-  }
-  return this.nextRollScore(frameIndex) + this.frames[frameIndex + 1][1];
 }
 
 module.exports = Scorecard;
