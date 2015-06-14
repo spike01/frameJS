@@ -1,6 +1,7 @@
 describe('Scorecard', function () {
   var Scorecard = require('../src/scorecard.js')
   var Frame = require('../src/frame.js')
+  var TenthFrame = require('../src/tenthFrame.js')
   var scorecard
 
   beforeEach(function () {
@@ -19,23 +20,34 @@ describe('Scorecard', function () {
   })
 
     it('adds a completed frame', function () {
-    addFrame(0, 0)
     var frame = new Frame()
     frame.addRoll(0)
     frame.addRoll(0)
+    addFrame(0, 0)
     expect(scorecard.frames).toEqual([frame])
   })
 
   it('adds rolls to the correct frame', function () {
-    addFrame(0, 0)
     var frame = new Frame()
     frame.addRoll(0)
     frame.addRoll(0)
-    addFrame(0, 0)
     var frame2 = new Frame()
     frame2.addRoll(0)
     frame2.addRoll(0)
+    addFrame(0, 0)
+    addFrame(0, 0)
     expect(scorecard.frames).toEqual([frame, frame2])
+  })
+
+  it('adds a tenth frame', function () {
+    var tenthFrame = new TenthFrame()
+    tenthFrame.addRoll(6)
+    tenthFrame.addRoll(0)
+    for (var i = 0; i < 9; i++) {
+      addFrame(6, 2)
+    }
+    addFrame(6, 0)
+    expect(scorecard.frames[9]).toEqual(tenthFrame)
   })
 
   it('stops after 10 frames', function () {
@@ -100,6 +112,14 @@ describe('Scorecard', function () {
       expect(scorecard.score()).toEqual(77)
     })
 
+    it('scores ten strikes', function () {
+      for (var i = 0; i < 10; i++) {
+        scorecard.addRoll(10)
+      }
+      addFrame(1, 1)
+      expect(scorecard.score()).toEqual(273)
+    })
+
     it('scores a game correctly up to the ninth frame', function () {
       scorecard.addRoll(10)
       addFrame(3, 4)
@@ -111,6 +131,28 @@ describe('Scorecard', function () {
       addFrame(5, 4)
       addFrame(3, 4)
       expect(scorecard.score()).toEqual(91)
+    })
+
+    it('scores a full game correctly', function () {
+      scorecard.addRoll(10)
+      addFrame(3, 4)
+      addFrame(7, 2)
+      addFrame(2, 8)
+      addFrame(6, 3)
+      addFrame(2, 0)
+      addFrame(4, 6)
+      addFrame(5, 4)
+      addFrame(3, 4)
+      scorecard.addRoll(5)
+      scorecard.addRoll(4)
+      expect(scorecard.score()).toEqual(100)
+    })
+
+    it('scores a perfect game', function () {
+      for (var i = 0; i < 12; i++) {
+        scorecard.addRoll(10)
+      }
+      expect(scorecard.score()).toEqual(300)
     })
   })
 

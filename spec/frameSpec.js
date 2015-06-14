@@ -39,9 +39,10 @@ describe('Frame', function () {
 
   describe('when reporting score', function () {
 
-    it('reports strikes', function () {
-      frame.addRoll(10)
-      expect(frame.score()).toEqual(['X'])
+    it('reports normal frames', function () {
+      frame.addRoll(5)
+      frame.addRoll(3)
+      expect(frame.score()).toEqual([5, 3])
     })
 
     it('reports spares', function () {
@@ -50,10 +51,9 @@ describe('Frame', function () {
       expect(frame.score()).toEqual([5, '/'])
     })
 
-    it('reports normal frames', function () {
-      frame.addRoll(5)
-      frame.addRoll(3)
-      expect(frame.score()).toEqual([5, 3])
+    it('reports strikes', function () {
+      frame.addRoll(10)
+      expect(frame.score()).toEqual(['X'])
     })
   })
 })

@@ -1,8 +1,10 @@
 var Frame = require('./frame')
+var TenthFrame = require('./tenthFrame')
 
 function Scorecard (Frame) {
   this.frames = []
   this.frame = Frame
+  this.tenthFrame = TenthFrame
   this.currentFrame = new this.frame()
 }
 
@@ -19,7 +21,6 @@ Scorecard.prototype.addRoll = function (roll) {
 }
 
 Scorecard.prototype.score = function () {
-
   return this.frames.map(function (frame) {
     return frame.score()
   }).reduce(function (total, nextFrame) {
@@ -55,7 +56,11 @@ Scorecard.prototype.score = function () {
 
 Scorecard.prototype.nextFrame = function () {
   this.frames.push(this.currentFrame)
-  this.currentFrame = new this.frame()
+  if (this.frames.length === 9) {
+    this.currentFrame = new this.tenthFrame()
+  } else {
+    this.currentFrame = new this.frame()
+  }
 }
 
 module.exports = Scorecard
