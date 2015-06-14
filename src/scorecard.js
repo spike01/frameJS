@@ -17,7 +17,7 @@ Scorecard.prototype.addRoll = function(roll) {
 Scorecard.prototype.score = function() {
 
   return this.frames.map(function(frame) {
-    return frame.nScore()
+    return frame.score()
   }).reduce(function(total, nextFrame) {
     return total.concat(nextFrame);
   }).map(function(roll, index, rolls) {
@@ -48,7 +48,6 @@ Scorecard.prototype.score = function() {
     return nextRoll(rolls, index) + nextRoll(rolls, index + 1);
   }
 }
-
 
 Scorecard.prototype.nextFrame = function() {
   this.frames.push(this.currentFrame);

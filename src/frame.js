@@ -2,6 +2,16 @@ function Frame() {
   this.rolls = []
 }
 
+Frame.prototype.score = function() {
+  if(this.isStrike()) {
+    return ["X"];
+  } else if (this.isSpare()) {
+    return [this.rolls[0], "/"];
+  } else {
+    return [this.rolls[0], this.rolls[1]];
+  }
+}
+
 Frame.prototype.addRoll = function(roll) {
   this.rolls.push(roll);
 }
@@ -11,33 +21,15 @@ Frame.prototype.isOver = function() {
 }
 
 Frame.prototype.isSpare = function() {
-  return this.isOver() && this.score() == 10;
+  return this.isOver() && this.frameTotal() == 10;
+}
+
+Frame.prototype.frameTotal = function() {
+  return this.rolls[0] + this.rolls[1];
 }
 
 Frame.prototype.isStrike = function() {
   return this.rolls[0] == 10;
-}
-
-Frame.prototype.score = function() {
-  return this.rolls.reduce(add);
-}
-
-Frame.prototype.spareBonus = function() {
-  return this.rolls[0]
-}
-
-Frame.prototype.strikeBonus = function() {
-  return this.score();
-}
-
-Frame.prototype.nScore = function() {
-  if(this.isStrike()) {
-    return ["X"];
-  } else if (this.isSpare()) {
-    return [this.rolls[0], "/"];
-  } else {
-    return [this.rolls[0], this.rolls[1]];
-  }
 }
 
 function add(a, b) {
