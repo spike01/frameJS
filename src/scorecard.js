@@ -2,16 +2,20 @@ var Frame = require('./frame')
 
 function Scorecard(Frame) {
   this.frames = [];
-  this.frameIndex = 0;
   this.frame = Frame;
   this.currentFrame = new this.frame();
 }
 
 Scorecard.prototype.addRoll = function(roll) {
+  if (this.frames.length == 10) {
+    return "Game over";
+  }
+
   this.currentFrame.addRoll(roll);
+
   if (this.currentFrame.isOver()) {
     this.nextFrame()
-  };
+  }
 }
 
 Scorecard.prototype.score = function() {
@@ -52,7 +56,6 @@ Scorecard.prototype.score = function() {
 Scorecard.prototype.nextFrame = function() {
   this.frames.push(this.currentFrame);
   this.currentFrame = new this.frame();
-  this.frameIndex++;
 }
 
 module.exports = Scorecard;
