@@ -59,4 +59,24 @@ describe("Frame", function() {
     frame.addRoll(3);
     expect(frame.strikeBonus()).toEqual(6);
   });
+
+  describe("when reporting score", function() {
+
+    it("reports strikes", function() {
+      frame.addRoll(10);
+      expect(frame.nScore()).toEqual(["X"]);
+    });
+
+    it("reports spares", function() {
+      frame.addRoll(5);
+      frame.addRoll(5);
+      expect(frame.nScore()).toEqual([5, "/"]);
+    });
+
+    it("reports normal frames", function() {
+      frame.addRoll(5);
+      frame.addRoll(3);
+      expect(frame.nScore()).toEqual([5, 3]);
+    });
+  })
 });

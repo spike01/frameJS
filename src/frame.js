@@ -7,11 +7,11 @@ Frame.prototype.addRoll = function(roll) {
 }
 
 Frame.prototype.isOver = function() {
-  return this.rolls[0] == 10 || this.rolls.length == 2;
+  return this.isStrike() || this.rolls.length == 2;
 }
 
 Frame.prototype.isSpare = function() {
-  return this.isOver() && this.rolls[0] + this.rolls[1] == 10;
+  return this.isOver() && this.score() == 10;
 }
 
 Frame.prototype.isStrike = function() {
@@ -30,8 +30,18 @@ Frame.prototype.strikeBonus = function() {
   return this.score();
 }
 
+Frame.prototype.nScore = function() {
+  if(this.isStrike()) {
+    return ["X"];
+  } else if (this.isSpare()) {
+    return [this.rolls[0], "/"];
+  } else {
+    return [this.rolls[0], this.rolls[1]];
+  }
+}
+
 function add(a, b) {
-  return a + b 
+  return a + b
 }
 
 module.exports = Frame

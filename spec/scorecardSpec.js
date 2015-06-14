@@ -87,6 +87,30 @@ describe("Scorecard", function() {
     expect(scorecard.score()).toEqual(47);
   });
 
+  it("scores three strikes", function() {
+    scorecard.addRoll(10)
+    scorecard.addRoll(10)
+    scorecard.addRoll(10)
+    addFrame(3, 4);
+    for(var i = 0; i < 6; i++) {
+      addFrame(0,0)
+    }
+    expect(scorecard.score()).toEqual(77);
+  });
+
+  it("scores a game correctly up to the ninth frame", function() {
+    scorecard.addRoll(10)
+    addFrame(3, 4)
+    addFrame(7, 2)
+    addFrame(2, 8)
+    addFrame(6, 3)
+    addFrame(2, 0)
+    addFrame(4, 6)
+    addFrame(5, 4)
+    addFrame(3, 4)
+    expect(scorecard.score()).toEqual(91);
+  });
+
   function addFrame(roll1, roll2) {
     scorecard.addRoll(roll1);
     scorecard.addRoll(roll2);

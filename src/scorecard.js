@@ -15,21 +15,40 @@ Scorecard.prototype.addRoll = function(roll) {
 }
 
 Scorecard.prototype.score = function() {
-  var score = 0
 
-  for(var frameIndex = 0; frameIndex < this.frames.length; frameIndex++) {
-    if (this.frames[frameIndex].isStrike()) {
-      if (this.frames[frameIndex + 1].isStrike()) {
-      score += this.frames[frameIndex + 2].spareBonus();
-      }
-      score += this.frames[frameIndex + 1].strikeBonus();
-    } else if (this.frames[frameIndex].isSpare()) {
-      score += this.frames[frameIndex + 1].spareBonus();
+  return this.frames.map(function(frame) {
+    return frame.nScore()
+  }).reduce(function(total, nextFrame) {
+    return total.concat(nextFrame);
+  }).map(function(roll, index, rolls) {
+    if (roll == '/') {
+      return frameTotal(rolls, index) + nextRoll(rolls, index);
+    } else if (roll == 'X') {
+      return 10 + nextTwoRolls(rolls, index)
+    } else {
+      return roll;
     }
-    score += this.frames[frameIndex].score()
+  }).reduce(function(total, nextRoll) {
+    return total + nextRoll;
+  })
+
+  function frameTotal(rolls, index) {
+    return 10 - rolls[index - 1];
   }
-  return score;
+
+  function nextRoll(rolls, index) {
+    if (rolls[index + 1] == 'X') {
+      return 10;
+    } else {
+      return rolls[index + 1];
+    }
+  }
+
+  function nextTwoRolls(rolls, index) {
+    return nextRoll(rolls, index) + nextRoll(rolls, index + 1);
+  }
 }
+
 
 Scorecard.prototype.nextFrame = function() {
   this.frames.push(this.currentFrame);
