@@ -8,7 +8,7 @@ Frame.prototype.score = function () {
   } else if (this.isSpare()) {
     return [this.rolls[0], '/']
   } else {
-    return [this.rolls[0], this.rolls[1]]
+    return this.rolls
   }
 }
 

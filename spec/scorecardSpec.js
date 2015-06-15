@@ -1,11 +1,12 @@
 describe('Scorecard', function () {
-  var Scorecard = require('../src/scorecard.js')
-  var Frame = require('../src/frame.js')
-  var TenthFrame = require('../src/tenthFrame.js')
+  var Scorecard = require('../src/scorecard')
+  var Frame = require('../src/frame')
+  var TenthFrame = require('../src/tenthFrame')
+  var ScoreCalculator = require('../src/scoreCalculator')
   var scorecard
 
   beforeEach(function () {
-    scorecard = new Scorecard(Frame)
+    scorecard = new Scorecard(Frame, TenthFrame, ScoreCalculator)
   })
 
   it('starts with no frames', function () {
@@ -120,7 +121,7 @@ describe('Scorecard', function () {
       expect(scorecard.score()).toEqual(273)
     })
 
-    it('scores a game correctly up to the ninth frame', function () {
+    it('scores a game up to the ninth frame', function () {
       scorecard.addRoll(10)
       addFrame(3, 4)
       addFrame(7, 2)
@@ -133,7 +134,7 @@ describe('Scorecard', function () {
       expect(scorecard.score()).toEqual(91)
     })
 
-    it('scores a full game correctly', function () {
+    it('scores a full game', function () {
       scorecard.addRoll(10)
       addFrame(3, 4)
       addFrame(7, 2)
@@ -143,8 +144,7 @@ describe('Scorecard', function () {
       addFrame(4, 6)
       addFrame(5, 4)
       addFrame(3, 4)
-      scorecard.addRoll(5)
-      scorecard.addRoll(4)
+      addFrame(5, 4)
       expect(scorecard.score()).toEqual(100)
     })
 

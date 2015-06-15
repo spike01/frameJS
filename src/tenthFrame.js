@@ -9,9 +9,7 @@ function TenthFrame () {
 }
 
 TenthFrame.prototype.score = function () {
-  if (this.isStrike()) {
-    return this.rolls
-  } else if (this.isSpare()) {
+  if (this.isSpare()) {
     return [this.rolls[0], '/', this.rolls[2]]
   } else {
     return this.rolls
@@ -19,10 +17,14 @@ TenthFrame.prototype.score = function () {
 }
 
 TenthFrame.prototype.isOver = function () {
-  if (this.frameTotal() < 10 && this.rolls.length === 2) {
-    return true 
+  if (this.hasNoBonus()) {
+    return this.rolls.length === 2
   }
-  return this.rolls.length === 3 
+  return this.rolls.length === 3
+}
+
+TenthFrame.prototype.hasNoBonus = function () {
+  return this.frameTotal() < 10 && this.rolls.length === 2
 }
 
 module.exports = TenthFrame
