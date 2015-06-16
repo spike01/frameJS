@@ -121,31 +121,21 @@ describe('Scorecard', function () {
       expect(scorecard.score()).toEqual(273)
     })
 
-    it('scores a game up to the ninth frame', function () {
+    it('scores a game up to the ninth frame with a strike at the start', function () {
       scorecard.addRoll(10)
-      addFrame(3, 4)
-      addFrame(7, 2)
-      addFrame(2, 8)
-      addFrame(6, 3)
-      addFrame(2, 0)
-      addFrame(4, 6)
-      addFrame(5, 4)
-      addFrame(3, 4)
-      expect(scorecard.score()).toEqual(91)
+      for (var i = 0; i < 8; i++) {
+        addFrame(3, 4)
+      }
+      expect(scorecard.score()).toEqual(73)
     })
 
-    it('scores a full game', function () {
+    it('scores a full game with a mix of spares and strikes', function () {
       scorecard.addRoll(10)
-      addFrame(3, 4)
-      addFrame(7, 2)
       addFrame(2, 8)
-      addFrame(6, 3)
-      addFrame(2, 0)
-      addFrame(4, 6)
-      addFrame(5, 4)
-      addFrame(3, 4)
-      addFrame(5, 4)
-      expect(scorecard.score()).toEqual(100)
+      for (var i = 0; i < 8; i++) {
+        addFrame(3, 4)
+      }
+      expect(scorecard.score()).toEqual(89)
     })
 
     it('scores a perfect game', function () {
