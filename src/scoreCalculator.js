@@ -21,7 +21,7 @@ ScoreCalculator.prototype.flattenArray = function (previousValue, currentValue) 
 
 ScoreCalculator.prototype.calculateScores = function (roll, rollIndex, rolls) {
   if (roll === '/') {
-    return this.spareRollScore(rolls, rollIndex) + this.nextRollScore(rolls, rollIndex + 1)
+    return this.spareRollScore(rolls, rollIndex) + this.nextRollScore(rolls, rollIndex)
   } else if (roll === 'X') {
     return this.STRIKE_SCORE + this.nextTwoRollsScore(rolls, rollIndex)
   } else {
@@ -34,17 +34,18 @@ ScoreCalculator.prototype.spareRollScore = function (rolls, rollIndex) {
 }
 
 ScoreCalculator.prototype.nextRollScore = function (rolls, rollIndex) {
-  if (rolls[rollIndex] === 'X') {
+  var nextRoll = rolls[rollIndex + 1]
+  if (nextRoll === 'X') {
     return this.STRIKE_SCORE
-  } else if (rolls[rollIndex] === '/') {
-    return this.spareRollScore(rolls, rollIndex)
+  } else if (nextRoll === '/') {
+    return this.spareRollScore(rolls, rollIndex + 1)
   } else {
-    return rolls[rollIndex]
+    return nextRoll
   }
 }
 
 ScoreCalculator.prototype.nextTwoRollsScore = function (rolls, rollIndex) {
-  return this.nextRollScore(rolls, rollIndex + 1) + this.nextRollScore(rolls, rollIndex + 2)
+  return this.nextRollScore(rolls, rollIndex) + this.nextRollScore(rolls, rollIndex + 1)
 }
 
 ScoreCalculator.prototype.sum = function (previousValue, currentValue) {
