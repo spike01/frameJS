@@ -21,28 +21,30 @@ ScoreCalculator.prototype.flattenArray = function (previousValue, currentValue) 
 
 ScoreCalculator.prototype.calculateScores = function (roll, rollIndex, rolls) {
   if (roll === '/') {
-    return this.frameTotal(rolls, rollIndex) + this.nextRoll(rolls, rollIndex)
+    return this.spareRollScore(rolls, rollIndex) + this.nextRollScore(rolls, rollIndex + 1)
   } else if (roll === 'X') {
-    return this.STRIKE_SCORE + this.nextTwoRolls(rolls, rollIndex)
+    return this.STRIKE_SCORE + this.nextTwoRollsScore(rolls, rollIndex)
   } else {
     return roll
   }
 }
 
-ScoreCalculator.prototype.frameTotal = function (rolls, rollIndex) {
+ScoreCalculator.prototype.spareRollScore = function (rolls, rollIndex) {
   return this.FRAME_MAXIMUM - rolls[rollIndex - 1]
 }
 
-ScoreCalculator.prototype.nextRoll = function (rolls, rollIndex) {
-  if (rolls[rollIndex + 1] === 'X') {
+ScoreCalculator.prototype.nextRollScore = function (rolls, rollIndex) {
+  if (rolls[rollIndex] === 'X') {
     return this.STRIKE_SCORE
+  } else if (rolls[rollIndex] === '/') {
+    return this.spareRollScore(rolls, rollIndex)
   } else {
-    return rolls[rollIndex + 1]
+    return rolls[rollIndex]
   }
 }
 
-ScoreCalculator.prototype.nextTwoRolls = function (rolls, rollIndex) {
-  return this.nextRoll(rolls, rollIndex) + this.nextRoll(rolls, rollIndex + 1)
+ScoreCalculator.prototype.nextTwoRollsScore = function (rolls, rollIndex) {
+  return this.nextRollScore(rolls, rollIndex + 1) + this.nextRollScore(rolls, rollIndex + 2)
 }
 
 ScoreCalculator.prototype.sum = function (previousValue, currentValue) {
