@@ -31,5 +31,3 @@ Frame.prototype.frameTotal = function () {
 Frame.prototype.isStrike = function () {
   return this.rolls[0] === 10
 }
-
-module.exports = Frame

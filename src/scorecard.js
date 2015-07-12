@@ -29,5 +29,3 @@ Scorecard.prototype.nextFrame = function () {
     this.currentFrame = new this.frame()
   }
 }
-
-module.exports = Scorecard

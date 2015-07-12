@@ -51,5 +51,3 @@ ScoreCalculator.prototype.nextTwoRollsScore = function (rolls, rollIndex) {
 ScoreCalculator.prototype.sum = function (previousValue, currentValue) {
   return previousValue + currentValue
 }
-
-module.exports = ScoreCalculator

@@ -1,5 +1,3 @@
-var Frame = require('./frame')
-
 TenthFrame.prototype = new Frame()
 
 TenthFrame.prototype.constructor = TenthFrame
@@ -25,5 +23,3 @@ TenthFrame.prototype.isOver = function () {
 TenthFrame.prototype.hasNoBonus = function () {
   return this.frameTotal() < 10 && this.rolls.length === 2
 }
-
-module.exports = TenthFrame
