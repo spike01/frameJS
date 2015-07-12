@@ -11,9 +11,8 @@ function TenthFrame () {
 TenthFrame.prototype.score = function () {
   if (this.isSpare()) {
     return [this.rolls[0], '/', this.rolls[2]]
-  } else {
-    return this.rolls
   }
+  return this.rolls
 }
 
 TenthFrame.prototype.isOver = function () {
