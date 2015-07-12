@@ -1,5 +1,4 @@
-describe('when scoring games', function () {
-  var scorecalculator
+describe('Score Calculator', function () {
   var frames
 
   beforeEach(function () {
